@@ -1,0 +1,16 @@
+---
+services:
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: Nextcloud
+    network_mode: bridge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    ports:
+      - 450:443
+    volumes:
+      - /srv/Docker/Nextcloud/config:/config
+      - /srv/Docker/Nextcloud/data:/data
+    restart: unless-stopped

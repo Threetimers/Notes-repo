@@ -1,0 +1,28 @@
+---
+services:
+  swag:
+    image: lscr.io/linuxserver/swag:latest
+    container_name: SWAG
+    network_mode: SWAG
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - URL=doubeibfr.duckdns.org
+      - VALIDATION=duckdns
+      - SUBDOMAINS=wildcard #optional
+      - DUCKDNSTOKEN= #A REMPLIR
+      - CERTPROVIDER= #optional
+      - DNSPLUGIN=cloudflare #optional
+      - PROPAGATION= #optional
+      - EMAIL= #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - EXTRA_DOMAINS= #optional
+      - STAGING=false #optional
+    volumes:
+      - /srv/Docker/SWAG:/config
+    ports:
+      - 443:443
+    restart: unless-stopped

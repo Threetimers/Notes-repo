@@ -1,0 +1,13 @@
+---
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main:latest
+    container_name: Open-WebUI
+    network_mode: Nginx-Proxy-Manager-Network
+    command:
+    extra_hosts: host.docker.internal:host-gateway
+    ports:
+      - 3000:8080
+    volumes:
+      - /srv/Docker/Open-WebUI:/app/backend/data
+    restart: unless-stopped

@@ -1,0 +1,12 @@
+docker run -d \
+--name Conteneur \
+--net=host \ 
+-e PUID=1000 \
+-e PGID=1000 \
+-e TZ=Europe/Paris \
+-p 100:100 \
+-p 200:200 \
+-v /srv/Docker/Conteneur/config:/config \
+-v /srv/Docker/Conteneur/data:/data \
+--restart=unless-stopped \
+conteneur/conteneur:latest

@@ -1,0 +1,11 @@
+---
+services:
+  guacamole:
+    image: flcontainers/guacamole:latest
+    container_name: Guacamole
+    network_mode: bridge
+    ports:
+      - 8081:8080
+    volumes:
+      - /srv/Docker/Guacamole:/config
+    restart: unless-stopped

@@ -1,0 +1,15 @@
+services:
+  snapdrop:
+    image: lscr.io/linuxserver/snapdrop:latest
+    container_name: Snapdrop
+    network_mode: bridge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    ports:
+      - 85:80
+      - 445:443
+    volumes:
+      - /srv/Docker/Snapdrop:/config
+    restart: unless-stopped
