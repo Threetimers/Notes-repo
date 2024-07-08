@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx
+  namespace: default
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`www.example.com`)        # a modifier
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+    - match: Host(`example.com`)      # a modifier
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: visiondudos-com-tls                # a modifier (dans le fichier local-example-com.yaml)
