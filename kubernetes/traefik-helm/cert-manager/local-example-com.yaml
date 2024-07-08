@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example                     # modify name of the Certificate
+  namespace: default
+spec:
+  secretName: exemaple-com-tls       # choose whatever suit yourself
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "*.example.com"       # modify to domain you own
+  dnsNames:
+  - "example.com"                   # modify to domain you own
+  - "*.example.com"                 # modify to domain you own while using a wildcard
