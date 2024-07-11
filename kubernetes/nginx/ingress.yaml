@@ -23,4 +23,4 @@ spec:
       middlewares:
         - name: default-headers
   tls:
-    secretName: example-com-tls                # a modifier (dans le fichier local-example-com.yaml)
+    secretName: example-com-tls                # a modifier (dans le fichier local-example-com.yaml (ligne 8) 
