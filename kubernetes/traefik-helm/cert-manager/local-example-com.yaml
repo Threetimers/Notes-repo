@@ -5,7 +5,7 @@ metadata:
   name: example                     # modify name of the Certificate
   namespace: default
 spec:
-  secretName: exemaple-com-tls       # choose whatever suit yourself
+  secretName: example-com-tls       # choose whatever suit yourself
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
