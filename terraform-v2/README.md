@@ -1,1 +1,1 @@
-## Create a VPC + subnet + EC2 isntance with docker and nginx
+## Create a VPC + subnet + EC2 instance with docker and nginx
