@@ -1,0 +1,16 @@
+all: 
+  children:
+    openvpn:
+      hosts:
+        srv1:
+          ansible_user: debian
+          ansible_ssh_private_key_file: "/mnt/a44de65c-5109-4815-abd0-982079635584/save/SSH-key/xavik/id_rsa"
+          ansible_host: 195.15.247.31     # modify ip 
+            
+
+
+
+
+        
+
+

@@ -1,0 +1,6 @@
+open*
+terraform.tfstate
+terraform.bak
+ansible.bak
+infra*
+
