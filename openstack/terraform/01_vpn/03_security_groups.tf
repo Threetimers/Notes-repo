@@ -1,4 +1,6 @@
 
+
+##### SSH #####
 resource "openstack_networking_secgroup_v2" "ssh" {
   name        = "ssh-from-all"
   description = "ssh-from-all"
@@ -13,6 +15,11 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_ssh_rule_v4" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.ssh.id
 }
+
+
+
+
+##### OpenVpn #####
 
 resource "openstack_networking_secgroup_v2" "openvpn" {
   name        = "openvpn"
@@ -40,6 +47,12 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_openvpn_rule_udp_v4" 
 }
 
 
+
+##### SSH internal #####
+
+
+
+
 resource "openstack_networking_secgroup_v2" "ssh-internal" {
   name        = "ssh-internal"
   description = "ssh-internal"
@@ -55,22 +68,12 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_ssh-internal_rule_v4"
   security_group_id = openstack_networking_secgroup_v2.ssh-internal.id
 }
 
-#resource "openstack_compute_secgroup_v2" "all_internal" {
-#  name        = "all_internal"
-#  description = "all_internal security group"
-#  rule {
-#    from_port   = 1
-#    to_port     = 65535
-#    ip_protocol = "tcp"
-#    cidr        = "10.0.1.0/24"
-#  }
-#  rule {
-#    from_port   = 1
-#    to_port     = 65535
-#    ip_protocol = "udp"
-#    cidr        = "10.0.1.0/24"
-#  }
-#}
+
+
+
+
+
+
 
 resource "openstack_networking_secgroup_v2" "all_internal" {
   name        = "all_internal"
@@ -97,22 +100,6 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_all_internal_rule_udp
   security_group_id = openstack_networking_secgroup_v2.all_internal.id
 }
 
-#resource "openstack_compute_secgroup_v2" "proxy" {
-#  name        = "proxy"
-#  description = "proxy security group"
-#  rule {
-#    from_port   = 80
-#    to_port     = 80
-#    ip_protocol = "tcp"
-#    cidr        = "0.0.0.0/0"
-#  }
-#  rule {
-#    from_port   = 443
-#    to_port     = 443
-#    ip_protocol = "tcp"
-#    cidr        = "0.0.0.0/0"
-#  }
-#}
 
 resource "openstack_networking_secgroup_v2" "proxy" {
   name        = "proxy"
@@ -138,3 +125,65 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_all_internal_rule_htt
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.proxy.id
 }
+
+
+
+
+##### Consul ##### 
+
+resource "openstack_networking_secgroup_v2" "consul" {
+  name        = "consul"
+  description = "consul"
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_dns_tcp" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 8600
+  port_range_max    = 8600
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_dns_udp" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "udp"
+  port_range_min    = 8600
+  port_range_max    = 8600
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_http_grpc" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 8500
+  port_range_max    = 8503
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_wlan_tcp" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 8300
+  port_range_max    = 8302
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_wlan_udp" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "udp"
+  port_range_min    = 8300
+  port_range_max    = 8302
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+

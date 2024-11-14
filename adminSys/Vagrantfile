@@ -1,0 +1,53 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # General Vagrant VM configuration.
+  config.vm.box = "generic/centos8s"
+  config.ssh.insert_key = false
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider :virtualbox do |v|
+    v.memory = 4000
+    v.cpus = 4
+    v.linked_clone = true
+  end
+
+  # Configuration spécifique à Spacewalk
+  config.vm.define "spacewalk" do |spacewalk|
+    spacewalk.vm.hostname = "spacewalk-01"
+
+    # Réseau public pour Spacewalk
+    spacewalk.vm.network "public_network"
+
+    # Ressources système spécifiques à Spacewalk
+    spacewalk.vm.provider :virtualbox do |v|
+      v.memory = 21000  # 21 GB de RAM
+      v.cpus = 4        # 4 processeurs
+      v.linked_clone = true
+    end
+
+    # Use external provisioning script for Spacewalk
+    spacewalk.vm.provision "shell", path: "setup.sh"
+  end
+
+  # Server DHCP
+  config.vm.define "dhcp" do |dhcp|
+    dhcp.vm.hostname = "dhcp-01"
+    dhcp.vm.network "public_network"
+
+    # Use external provisioning script for DHCP
+    dhcp.vm.provision "shell", path: "setup.sh"
+  end
+
+  # # Database server.
+  # config.vm.define "db" do |db|
+  #   db.vm.hostname = "orc-db.test"
+  #   db.vm.network :private_network, ip: "192.168.2.62"
+  #   
+  #   # Use external provisioning script for Database server
+  #   db.vm.provision "shell", path: "setup.sh"
+  # end
+end
